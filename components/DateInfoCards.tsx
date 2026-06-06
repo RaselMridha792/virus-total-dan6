@@ -6,154 +6,123 @@ interface DateInfoCardsProps {
 
 export default function DateInfoCards({ domain }: DateInfoCardsProps) {
   return (
-    <div style={{
-      maxWidth: "1440px",
-      margin: "16px auto",
-      padding: "0 20px",
-    }}>
-      {/* Main info card - the big rounded card */}
-      <div style={{
-        backgroundColor: "#161b22",
-        border: "1px solid #30363d",
-        borderRadius: "12px",
-        overflow: "hidden",
-      }}>
-        {/* Top row: alert + Reanalyze/More */}
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "14px 20px",
-          borderBottom: "1px solid #21262d",
-        }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-              <circle cx="12" cy="12" r="9" stroke="#8b949e" strokeWidth="1.8" />
-              <line x1="12" y1="8" x2="12" y2="12" stroke="#8b949e" strokeWidth="1.8" strokeLinecap="round" />
-              <line x1="12" y1="16" x2="12.01" y2="16" stroke="#8b949e" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-            <span style={{ color: "#8b949e", fontSize: "13px" }}>No security vendors flagged this domain as malicious</span>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <button style={{
-              background: "transparent",
-              border: "1px solid #30363d",
-              borderRadius: "6px",
-              color: "#8b949e",
-              fontSize: "13px",
-              padding: "5px 12px",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              fontFamily: "Roboto, Arial, sans-serif",
-            }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                <polyline points="23 4 23 10 17 10" stroke="#8b949e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" stroke="#8b949e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Reanalyze
-            </button>
-            <button style={{
-              background: "transparent",
-              border: "1px solid #30363d",
-              borderRadius: "6px",
-              color: "#8b949e",
-              fontSize: "13px",
-              padding: "5px 12px",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "4px",
-              fontFamily: "Roboto, Arial, sans-serif",
-            }}>
-              More
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="#8b949e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Bottom row: score circle + domain + dates + avatar */}
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          padding: "20px 20px",
-          gap: "24px",
-        }}>
-          {/* Score circle */}
-          <div style={{
-            width: "100px",
-            height: "100px",
-            position: "relative",
-            flexShrink: 0,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-          }}>
-            <svg width="100" height="100" viewBox="0 0 100 100" style={{ position: "absolute", top: 0, left: 0 }}>
-              {/* Background circle */}
-              <circle cx="50" cy="50" r="44" fill="none" stroke="#21262d" strokeWidth="6" />
-              {/* Green arc - bottom portion like the original */}
+    <div className="w-full  mx-auto px-10 my-10 font-sans">
+      
+      {/* 🚀 Main Container with Gap between Left and Right Cards */}
+      <div className="flex flex-col md:flex-row gap-4">
+        
+        {/* 🟢 LEFT CARD: Score Card */}
+        <div className="bg-[#212c3d] rounded-md p-6 flex flex-col items-center justify-center min-w-[210px] shadow-sm">
+          
+          {/* Progress Circle */}
+          <div className="relative w-28 h-28 flex flex-col items-center justify-center mb-5">
+            <svg className="absolute inset-0 w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+              {/* Background Track */}
+              <circle cx="50" cy="50" r="44" fill="none" stroke="#313e52" strokeWidth="5" />
+              {/* Green Progress Track */}
               <circle
                 cx="50" cy="50" r="44"
                 fill="none"
-                stroke="#3fb950"
-                strokeWidth="6"
-                strokeDasharray="138 138"
-                strokeDashoffset="207"
+                stroke="#15b57f"
+                strokeWidth="5"
                 strokeLinecap="round"
-                transform="rotate(-90 50 50)"
+                strokeDasharray="276"
+                strokeDashoffset="0" 
               />
             </svg>
-            <div style={{ color: "#e6edf3", fontSize: "28px", fontWeight: "300", lineHeight: 1, position: "relative", zIndex: 1 }}>0</div>
-            <div style={{ color: "#8b949e", fontSize: "11px", position: "relative", zIndex: 1 }}>/ 91</div>
-            <div style={{ color: "#8b949e", fontSize: "10px", textAlign: "center", marginTop: "4px", lineHeight: 1.3, position: "relative", zIndex: 1 }}>Community<br />Score</div>
-            {/* Small toggle dots below */}
-            <div style={{ display: "flex", gap: "3px", marginTop: "6px", position: "relative", zIndex: 1 }}>
-              <div style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#21262d", border: "1px solid #30363d" }} />
-              <div style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#21262d", border: "1px solid #30363d" }} />
-            </div>
+            <div className="text-white text-3xl font-normal leading-none relative z-10 mt-1">0</div>
+            <div className="text-gray-400 text-[11px] font-medium relative z-10 mt-1">/ 91</div>
           </div>
-
-          {/* Domain name */}
-          <div style={{ flex: 1 }}>
-            <div style={{ color: "#e6edf3", fontSize: "18px", fontWeight: "400" }}>{domain}</div>
-          </div>
-
-          {/* Dates */}
-          <div style={{ display: "flex", alignItems: "center", gap: "40px", marginRight: "16px" }}>
-            <div id="creation-date-block">
-              <div style={{ color: "#8b949e", fontSize: "11px", marginBottom: "4px", fontWeight: "400" }}>Creation Date</div>
-              <div style={{ color: "#e6edf3", fontSize: "13px", fontWeight: "400" }}>2 months ago</div>
+          
+          {/* Bottom Labels & Toggle */}
+          <div className="flex items-center gap-3">
+            <div className="text-gray-400 text-[11px] text-center leading-tight">
+              Community<br />Score
             </div>
-            <div id="last-analysis-date-block">
-              <div style={{ color: "#8b949e", fontSize: "11px", marginBottom: "4px", fontWeight: "400" }}>Last Analysis Date</div>
-              <div style={{ color: "#e6edf3", fontSize: "13px", fontWeight: "400" }}>1 hour ago</div>
+            {/* Small Toggle Switch */}
+            <div className="w-9 h-5 bg-[#313e52] rounded-full flex items-center justify-end px-0.5 cursor-pointer">
+              <div className="w-4 h-4 bg-[#4a586d] rounded-full"></div>
             </div>
-          </div>
-
-          {/* Avatar */}
-          <div style={{
-            width: "44px",
-            height: "44px",
-            borderRadius: "50%",
-            border: "2px solid #30363d",
-            overflow: "hidden",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#21262d",
-            flexShrink: 0,
-          }}>
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="8" r="4" stroke="#8b949e" strokeWidth="1.5" />
-              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#8b949e" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
           </div>
         </div>
+
+        {/* 🔵 RIGHT CARD: Information Card */}
+        <div className="flex-1 flex flex-col bg-[#212c3d] rounded-md overflow-hidden shadow-sm">
+          
+          {/* Top Row: Alert & Actions (Lighter Background) */}
+          <div className="bg-[#2F3D5C] px-5 py-3 flex items-center justify-between border-b border-[#313e52]">
+            <div className="flex items-center gap-2">
+              {/* Info Icon (i) */}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-[#15b57f] shrink-0">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                <line x1="12" y1="16" x2="12.01" y2="16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+                <line x1="12" y1="8" x2="12" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              <span className="text-[#15b57f] text-[13px] font-medium tracking-wide">
+                No security vendors flagged this domain as malicious
+              </span>
+            </div>
+            
+            <div className="flex items-center gap-5">
+              {/* Reanalyze Button */}
+              <button className="flex items-center gap-1.5 text-[#e2e8f0] hover:text-white text-[13px] font-medium transition-colors">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.92-10.27l-3.27 3.27" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Reanalyze
+              </button>
+              {/* More Button */}
+              <button className="flex items-center gap-1 text-[#e2e8f0] hover:text-white text-[13px] font-medium transition-colors">
+                More
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Bottom Row: Domain & Dates */}
+          <div className="px-5 py-6 flex flex-col md:flex-row md:items-center justify-between flex-1">
+            
+            {/* Domain Name */}
+            <div className="text-[#e2e8f0] text-[13px] font-medium">
+              {domain}
+            </div>
+
+            {/* Dates & Icon Group */}
+            <div className="flex items-center gap-8">
+              
+              <div id="creation-date-block" className="flex flex-col">
+                <span className="text-gray-400 text-[11px] mb-1">Creation Date</span>
+                <span className="text-[#e2e8f0] text-[13px]">2 months ago</span>
+              </div>
+              
+              <div id="last-analysis-date-block" className="flex flex-col">
+                <span className="text-gray-400 text-[11px] mb-1">Last Analysis Date</span>
+                {/* 5 hours ago as per your new screenshot */}
+                <span className="text-[#e2e8f0] text-[13px]">5 hours ago</span> 
+              </div>
+
+              {/* VirusTotal Specific Globe/Link Icon */}
+              <div className="w-10 h-10 rounded-full border border-gray-500 bg-[#212c3d] flex items-center justify-center shrink-0 ml-2 relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0" strokeWidth="1.5">
+                   <circle cx="12" cy="12" r="10" />
+                   <path d="M2 12h20" />
+                   <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+                {/* Small overlay link icon to match screenshot exactly */}
+                <div className="absolute -bottom-1 -right-1 bg-[#212c3d] rounded-full p-0.5">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0" strokeWidth="2">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                  </svg>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
   );
