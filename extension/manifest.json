@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Timestamp Overlay",
+  "version": "1.0",
+  "description": "Injects an editable UTC timestamp overlay on any webpage for screenshot use.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Timestamp Overlay"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ]
+}
