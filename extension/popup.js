@@ -8,7 +8,7 @@ function getUTCString() {
   const h = String(now.getUTCHours()).padStart(2, '0');
   const mi = String(now.getUTCMinutes()).padStart(2, '0');
   const s = String(now.getUTCSeconds()).padStart(2, '0');
-  return `Timestamp: ${y}-${mo}-${d}T${h}:${mi}:${s}Z`;
+  return `${y}-${mo}-${d} ${h}:${mi}:${s} UTC`;
 }
 
 const tsInput = document.getElementById('tsInput');
@@ -18,8 +18,27 @@ const status = document.getElementById('status');
 
 // Load saved value
 chrome.storage.local.get(['vt_timestamp_value'], function (result) {
-  tsInput.value = result.vt_timestamp_value || getUTCString();
+  let savedVal = result.vt_timestamp_value;
+  if (savedVal && savedVal.includes('Timestamp:')) {
+    savedVal = getUTCString();
+  }
+  tsInput.value = savedVal || getUTCString();
 });
+
+function updateTabInput(val) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    if (tabs[0]) {
+      chrome.scripting.executeScript({
+        target: { tabId: tabs[0].id },
+        func: (value) => {
+          const el = document.getElementById('vt-clean-footer-input');
+          if (el) el.value = value;
+        },
+        args: [val],
+      });
+    }
+  });
+}
 
 resetBtn.addEventListener('click', function () {
   const val = getUTCString();
@@ -27,20 +46,7 @@ resetBtn.addEventListener('click', function () {
   chrome.storage.local.set({ vt_timestamp_value: val });
   status.textContent = 'Reset to current UTC.';
   setTimeout(() => { status.textContent = ''; }, 2000);
-
-  // Update active tab
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    if (tabs[0]) {
-      chrome.scripting.executeScript({
-        target: { tabId: tabs[0].id },
-        func: (value) => {
-          const el = document.getElementById('vt-timestamp-input');
-          if (el) el.value = value;
-        },
-        args: [val],
-      });
-    }
-  });
+  updateTabInput(val);
 });
 
 saveBtn.addEventListener('click', function () {
@@ -48,18 +54,5 @@ saveBtn.addEventListener('click', function () {
   chrome.storage.local.set({ vt_timestamp_value: val });
   status.textContent = 'Saved!';
   setTimeout(() => { status.textContent = ''; }, 2000);
-
-  // Update active tab
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    if (tabs[0]) {
-      chrome.scripting.executeScript({
-        target: { tabId: tabs[0].id },
-        func: (value) => {
-          const el = document.getElementById('vt-timestamp-input');
-          if (el) el.value = value;
-        },
-        args: [val],
-      });
-    }
-  });
+  updateTabInput(val);
 });
