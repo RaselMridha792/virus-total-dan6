@@ -62,8 +62,8 @@ export default function TimestampFooter() {
         <div
           onClick={handleClick}
           style={{
-            color: "#8492a6", // অরিজিনাল সাইটের ফুটার টেক্সট কালার টোন
-            fontSize: "13px",
+            color: "#b4c0d1", // অরিজিনাল সাইটের ফুটার টেক্সট কালার টোন
+            fontSize: "23px",
             fontFamily: "Roboto, monospace, Arial, sans-serif",
             textAlign: "center",
             userSelect: "none",
