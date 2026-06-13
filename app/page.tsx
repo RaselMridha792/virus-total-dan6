@@ -3,7 +3,7 @@ import { useState } from "react";
 import SearchHeader from "@/components/SearchHeader";
 import DateInfoCards from "@/components/DateInfoCards";
 import DomainReportMock from "@/components/DomainReportMock";
-import TimestampFooter from "@/components/TimestampFooter";
+// import TimestampFooter from "@/components/TimestampFooter";
 
 export default function Home() {
   const [domain, setDomain] = useState("adrforums.net");
@@ -13,7 +13,7 @@ export default function Home() {
       <SearchHeader domain={domain} onSearch={setDomain} />
       <DateInfoCards domain={domain} />
       <DomainReportMock domain={domain} />
-      <TimestampFooter />
+      {/* <TimestampFooter /> */}
     </div>
   );
 }
