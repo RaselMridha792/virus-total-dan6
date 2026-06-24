@@ -16,158 +16,101 @@ export default function SearchHeader({ domain, onSearch }: SearchHeaderProps) {
   };
 
   return (
-    <div style={{
-      backgroundColor: "#2F3D5C",
-      borderBottom: "1px solid #3c4043",
-      position: "sticky",
-      top: 0,
-      zIndex: 100,
-    }}>
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        height: "52px",
-        padding: "0 16px",
-        gap: "12px",
-      }}>
+    // স্ক্রিনশটের আসল নেভি-ব্লু গ্রে ব্যাকগ্রাউন্ড (#2b3752)
+    <div className="sticky top-0 z-[100] bg-[#2b3752] border-b border-[#1f2840]">
+      <div className="flex items-center h-[56px] px-4 gap-3.5">
 
-        {/* VT Logo - blue diamond icon */}
-        <div style={{ flexShrink: 0, display: "flex", alignItems: "center" }}>
-          <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-            <rect width="30" height="30" rx="4" fill="#1a73e8" />
-            <path d="M15 5 L25 15 L15 25 L5 15 Z" fill="white" opacity="0.9" />
-            <path d="M15 9 L21 15 L15 21 L9 15 Z" fill="#1a73e8" />
+        {/* VT Logo - Only Icon */}
+        <div className="flex-shrink-0 flex items-center text-[#8ab4f8]">
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            xmlSpace="preserve" 
+            viewBox="0 0 108 109" 
+            fill="currentColor"
+            className="h-[34px] w-auto pl-1"
+          >
+            <path d="M0 5.9l48.7 48.6L0 103h107.5V5.9H0zm97.1 86.7H24.5l38.4-38.1-38.4-38.2h72.6v76.3z"></path>
           </svg>
         </div>
 
-        {/* Search bar */}
+        {/* Search bar - Darker background as per screenshot */}
         <form
           onSubmit={handleSubmit}
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            backgroundColor: "#232C42",
-            border: "1px solid #5f6368",
-            borderRadius: "24px",
-            height: "38px",
-            padding: "0 16px",
-            gap: "10px",
-          }}
+          className="flex-1 flex items-center bg-[#1d273b] rounded-[4px] h-[30px] px-3 gap-3 "
         >
           {/* Search icon */}
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-            <circle cx="11" cy="11" r="7" stroke="#9aa0a6" strokeWidth="2" />
-            <path d="M16.5 16.5 L21 21" stroke="#9aa0a6" strokeWidth="2.2" strokeLinecap="round" />
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
+            <circle cx="11" cy="11" r="7" stroke="#9ca3af" strokeWidth="2.5" />
+            <path d="M16.5 16.5 L21 21" stroke="#9ca3af" strokeWidth="2.5" strokeLinecap="round" />
           </svg>
 
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            style={{
-              flex: 1,
-              background: "transparent",
-              border: "none",
-              outline: "none",
-              color: "#e8eaed",
-              fontSize: "14px",
-              fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif",
-            }}
+            className="flex-1 bg-transparent border-none outline-none text-[#e2e8f0] text-[13.5px] font-sans placeholder-[#64748b]"
             placeholder="Search or scan a URL, IP address, domain or file hash"
           />
-
-          {/* Arrow submit button */}
-          <button
-            type="submit"
-            style={{
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              padding: "0",
-              display: "flex",
-              alignItems: "center",
-              flexShrink: 0,
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M9 18l6-6-6-6" stroke="#9aa0a6" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
         </form>
 
-        {/* Right side icons */}
-        <div style={{ display: "flex", alignItems: "center", gap: "4px", flexShrink: 0 }}>
+<div className="w-[1px] h-6 bg-[#68789c] mx-2" />
+
+
+
+
+        {/* Right side icons & Buttons */}
+        <div className="flex items-center gap-2 flex-shrink-0">
 
           {/* Upload icon */}
-          <button style={{ background: "transparent", border: "none", cursor: "pointer", padding: "8px", borderRadius: "50%", display: "flex", alignItems: "center" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="#9aa0a6" strokeWidth="1.8" strokeLinecap="round" />
-              <polyline points="17 8 12 3 7 8" stroke="#9aa0a6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              <line x1="12" y1="3" x2="12" y2="15" stroke="#9aa0a6" strokeWidth="1.8" strokeLinecap="round" />
+          <button className="text-[#cbd5e1] hover:text-white p-1 rounded-full hover:bg-white/5 transition-colors">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
             </svg>
           </button>
 
-          {/* Flag icon */}
-          <button style={{ background: "transparent", border: "none", cursor: "pointer", padding: "8px", borderRadius: "50%", display: "flex", alignItems: "center" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke="#9aa0a6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              <line x1="4" y1="22" x2="4" y2="15" stroke="#9aa0a6" strokeWidth="1.8" strokeLinecap="round" />
+          {/* Chat/Community icon */}
+          <button className="text-[#cbd5e1] hover:text-white p-1 rounded-full hover:bg-white/5 transition-colors">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
           </button>
 
           {/* Help icon */}
-          <button style={{ background: "transparent", border: "none", cursor: "pointer", padding: "8px", borderRadius: "50%", display: "flex", alignItems: "center" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="9" stroke="#9aa0a6" strokeWidth="1.8" />
-              <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" stroke="#9aa0a6" strokeWidth="1.8" strokeLinecap="round" />
-              <circle cx="12" cy="17" r="0.8" fill="#9aa0a6" />
+          <button className="text-[#cbd5e1] hover:text-white p-1 rounded-full hover:bg-white/5 transition-colors">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
             </svg>
           </button>
 
-          {/* Settings icon */}
-          <button style={{ background: "transparent", border: "none", cursor: "pointer", padding: "8px", borderRadius: "50%", display: "flex", alignItems: "center" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="3" stroke="#9aa0a6" strokeWidth="1.8" />
-              <path
-                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"
-                stroke="#9aa0a6"
-                strokeWidth="1.8"
-              />
+          {/* Theme/Light mode icon */}
+          <button className="text-[#cbd5e1] hover:text-white p-1 rounded-full hover:bg-white/5 transition-colors">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
             </svg>
           </button>
 
-          {/* Divider */}
-          <div style={{ width: "1px", height: "26px", backgroundColor: "#5f6368", margin: "0 6px" }} />
+          {/* Vertical Divider */}
+          <div className="w-[1px] h-6 bg-[#68789c] mx-2" />
 
           {/* Sign in */}
-          <button style={{
-            background: "transparent",
-            border: "1px solid #5f6368",
-            borderRadius: "4px",
-            color: "#e8eaed",
-            fontSize: "13px",
-            fontWeight: "500",
-            padding: "5px 18px",
-            cursor: "pointer",
-            fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif",
-          }}>
+          <button className="text-[#f8fafc] text-[12px] font-medium px-3 py-1 rounded hover:bg-white/5 transition-colors mr-1">
             Sign in
           </button>
 
           {/* Sign up */}
-          <button style={{
-            background: "#1a73e8",
-            border: "none",
-            borderRadius: "4px",
-            color: "#fff",
-            fontSize: "13px",
-            fontWeight: "500",
-            padding: "5px 18px",
-            cursor: "pointer",
-            fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif",
-            marginLeft: "6px",
-          }}>
+          <button className="bg-[#8ab4f8] hover:bg-[#a1c4fa] text-[#1e293b] text-[12px] font-semibold px-3 py-[4px] rounded-full transition-colors">
             Sign up
           </button>
         </div>
