@@ -4,9 +4,11 @@ import { useState } from "react";
 interface SearchHeaderProps {
   domain: string;
   onSearch: (domain: string) => void;
+  theme?: "dark" | "light";
+  onToggleTheme?: () => void;
 }
 
-export default function SearchHeader({ domain, onSearch }: SearchHeaderProps) {
+export default function SearchHeader({ domain, onSearch, theme = "dark", onToggleTheme }: SearchHeaderProps) {
   const [input, setInput] = useState(domain);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -17,7 +19,7 @@ export default function SearchHeader({ domain, onSearch }: SearchHeaderProps) {
 
   return (
     // স্ক্রিনশটের আসল নেভি-ব্লু গ্রে ব্যাকগ্রাউন্ড (#2b3752)
-    <div className="sticky top-0 z-[100] bg-[#2b3752] border-b border-[#1f2840]">
+    <div className="sticky top-0 z-[100] bg-[var(--header)] border-b border-[var(--header-bd)]">
       <div className="flex items-center h-[56px] px-4 gap-3.5">
 
         {/* VT Logo - Only Icon */}
@@ -36,7 +38,7 @@ export default function SearchHeader({ domain, onSearch }: SearchHeaderProps) {
         {/* Search bar - Darker background as per screenshot */}
         <form
           onSubmit={handleSubmit}
-          className="flex-1 flex items-center bg-[#1d273b] rounded-[4px] h-[30px] px-3 gap-3 "
+          className="flex-1 flex items-center bg-[var(--search)] rounded-[4px] h-[30px] px-3 gap-3 "
         >
           {/* Search icon */}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
@@ -48,12 +50,12 @@ export default function SearchHeader({ domain, onSearch }: SearchHeaderProps) {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="flex-1 bg-transparent border-none outline-none text-[#e2e8f0] text-[13.5px] font-sans placeholder-[#64748b]"
+            className="flex-1 bg-transparent border-none outline-none text-[var(--tx)] text-[13.5px] font-sans placeholder-[var(--tx-faint)]"
             placeholder="Search or scan a URL, IP address, domain or file hash"
           />
         </form>
 
-<div className="w-[1px] h-6 bg-[#68789c] mx-2" />
+<div className="w-[1px] h-6 bg-[var(--divider)] mx-2" />
 
 
 
@@ -62,7 +64,7 @@ export default function SearchHeader({ domain, onSearch }: SearchHeaderProps) {
         <div className="flex items-center gap-2 flex-shrink-0">
 
           {/* Upload icon */}
-          <button className="text-[#cbd5e1] hover:text-white p-1 rounded-full hover:bg-white/5 transition-colors">
+          <button className="text-[var(--tx-muted)] hover:text-[var(--tx-strong)] p-1 rounded-full hover:bg-white/5 transition-colors">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
               <polyline points="17 8 12 3 7 8" />
@@ -71,14 +73,14 @@ export default function SearchHeader({ domain, onSearch }: SearchHeaderProps) {
           </button>
 
           {/* Chat/Community icon */}
-          <button className="text-[#cbd5e1] hover:text-white p-1 rounded-full hover:bg-white/5 transition-colors">
+          <button className="text-[var(--tx-muted)] hover:text-[var(--tx-strong)] p-1 rounded-full hover:bg-white/5 transition-colors">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
           </button>
 
           {/* Help icon */}
-          <button className="text-[#cbd5e1] hover:text-white p-1 rounded-full hover:bg-white/5 transition-colors">
+          <button className="text-[var(--tx-muted)] hover:text-[var(--tx-strong)] p-1 rounded-full hover:bg-white/5 transition-colors">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10" />
               <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
@@ -86,26 +88,37 @@ export default function SearchHeader({ domain, onSearch }: SearchHeaderProps) {
             </svg>
           </button>
 
-          {/* Theme/Light mode icon */}
-          <button className="text-[#cbd5e1] hover:text-white p-1 rounded-full hover:bg-white/5 transition-colors">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="5" />
-              <line x1="12" y1="1" x2="12" y2="3" />
-              <line x1="12" y1="21" x2="12" y2="23" />
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-              <line x1="1" y1="12" x2="3" y2="12" />
-              <line x1="21" y1="12" x2="23" y2="12" />
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-            </svg>
+          {/* Theme switcher — sun in dark mode (switch to light), moon in light mode */}
+          <button
+            onClick={onToggleTheme}
+            aria-label="Toggle theme"
+            title={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+            className="text-[var(--tx-muted)] hover:text-[var(--tx-strong)] p-1 rounded-full hover:bg-white/5 transition-colors"
+          >
+            {theme === "dark" ? (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              </svg>
+            ) : (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            )}
           </button>
 
           {/* Vertical Divider */}
-          <div className="w-[1px] h-6 bg-[#68789c] mx-2" />
+          <div className="w-[1px] h-6 bg-[var(--divider)] mx-2" />
 
           {/* Sign in */}
-          <button className="text-[#f8fafc] text-[12px] font-medium px-3 py-1 rounded hover:bg-white/5 transition-colors mr-1">
+          <button className="text-[var(--tx-strong)] text-[12px] font-medium px-3 py-1 rounded hover:bg-white/5 transition-colors mr-1">
             Sign in
           </button>
 

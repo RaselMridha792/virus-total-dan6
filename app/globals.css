@@ -8,14 +8,59 @@
   padding: 0;
 }
 
+/* ── Theme tokens ─────────────────────────────────────────────
+   Dark values are identical to the original hard-coded palette
+   so the dark theme stays pixel-perfect. `.light` swaps them. */
+:root {
+  --bg: #161625;
+  --header: #2b3752;
+  --header-bd: #1f2840;
+  --search: #1d273b;
+  --surface: #232c42;     /* cards */
+  --surface-hi: #2f3d5c;  /* red warning bar */
+  --surface-2: #242f41;   /* row hover */
+  --card: #1c2333;        /* details/relations/community cards */
+  --inset: #18202d;       /* globe circle bg */
+  --banner: #182335;
+  --border: #2c384f;
+  --border-2: #313e52;
+  --divider: #68789c;
+  --tx-strong: #f8fafc;
+  --tx: #e2e8f0;
+  --tx-soft: #c1d1e0;
+  --tx-muted: #8ba0b2;
+  --tx-faint: #64748b;
+}
+
+:root.light {
+  --bg: #ffffff;
+  --header: #eef1f6;
+  --header-bd: #d8dee8;
+  --search: #e7ebf2;
+  --surface: #ffffff;
+  --surface-hi: #fdecec;
+  --surface-2: #f2f4f8;
+  --card: #ffffff;
+  --inset: #eef1f6;
+  --banner: #e7f6f9;
+  --border: #e3e7ee;
+  --border-2: #e3e7ee;
+  --divider: #c2cad6;
+  --tx-strong: #1b2330;
+  --tx: #2a3340;
+  --tx-soft: #3a4554;
+  --tx-muted: #5d6b7c;
+  --tx-faint: #94a3b8;
+}
+
 body {
-  background-color: #0d1117;
-  color: #c9d1d9;
+  background-color: var(--bg);
+  color: var(--tx);
   font-family: 'Roboto', Arial, sans-serif;
   font-size: 14px;
   min-width: 1366px;
 }
 
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #0d1117; }
-::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 4px; }

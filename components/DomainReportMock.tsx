@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { mockReportData } from "@/lib/mockReportData";
+import DetailsTab from "@/components/tabs/DetailsTab";
+import RelationsTab from "@/components/tabs/RelationsTab";
+import CommunityTab from "@/components/tabs/CommunityTab";
 
 interface DomainReportMockProps {
   domain: string;
@@ -93,7 +96,21 @@ function StatusIndicator({ vendorName, defaultStatus }: { vendorName: string, de
   return (
     <div className="flex items-center gap-2 text-[#15b57f]">
       <CleanIcon />
-      <span className="text-[13px] font-medium tracking-wide">Clean</span>
+      <span className="text-[13px] font-medium tracking-wide text-[var(--tx-strong)]">Clean</span>
+    </div>
+  );
+}
+
+// One table row: two halves, each = [name | verdict]. Verdict sits in a fixed
+// sub-column ~40% into each half (matches VT), border spans full width.
+function VendorRow({ left, right, status, muted, header }: { left: string; right: string; status: string; muted: boolean; header?: boolean }) {
+  const nameCls = `text-[13px] pr-4 ${header ? "font-semibold text-[var(--tx-strong)]" : "font-medium"} ${muted ? "text-[var(--tx-muted)]" : header ? "" : "text-[var(--tx)]"}`;
+  return (
+    <div className={`grid grid-cols-[2fr_3fr_2fr_3fr] items-center min-h-[46px] px-2 hover:bg-[var(--surface-2)]/40 transition-colors ${header ? "border-b-2 border-[var(--border)]" : "border-b border-[var(--border)]/60"}`}>
+      <span className={nameCls}>{left}</span>
+      <div><StatusIndicator vendorName={left} defaultStatus={status} /></div>
+      <span className={nameCls}>{right}</span>
+      <div><StatusIndicator vendorName={right} defaultStatus={status} /></div>
     </div>
   );
 }
@@ -102,26 +119,26 @@ export default function DomainReportMock({ domain }: DomainReportMockProps) {
   const [activeTab, setActiveTab] = useState("DETECTION");
   const tabs = ["DETECTION", "DETAILS", "RELATIONS", "COMMUNITY"];
 
+  // Flagged vendors are pinned to the top as a header row, so remove them from the
+  // clean/unrated lists to avoid showing them twice.
   const cleanLeft = mockReportData.cleanVendors;
-  const cleanRight = mockReportData.cleanVendorsRight;
-  const unratedLeft = mockReportData.unratedVendors;
+  const cleanRight = mockReportData.cleanVendorsRight.filter((v) => v !== "SOCRadar");
+  const unratedLeft = mockReportData.unratedVendors.filter((v) => v !== "Gridinsoft");
   const unratedRight = mockReportData.unratedVendorsRight;
 
   const maxClean = Math.max(cleanLeft.length, cleanRight.length);
   const maxUnrated = Math.max(unratedLeft.length, unratedRight.length);
 
   return (
-    <div className="w-full mx-auto px-4 md:px-10 pb-16 font-sans bg-[#161625]">
+    <div className="w-full mx-auto px-4 md:px-10 pb-16 font-sans bg-[var(--bg)]">
       
       {/* 🚀 Tabs */}
-      <div className="flex gap-2 border-b border-[#2c384f] mb-6 px-1">
+      <div className="flex gap-2 border-b border-[var(--border)] mb-6 px-1">
         {tabs.map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`relative px-4 pb-3.5 text-[12.5px] font-bold tracking-wider transition-colors ${
-              activeTab === tab ? "text-[#58a6ff]" : "text-[#8ba0b2] hover:text-[#c1d1e0]"
-            }`}
+            className="relative px-4 pb-3.5 text-[14px] font-normal tracking-wider transition-colors text-[var(--tx-strong)]"
           >
             {tab}
             {activeTab === tab && <div className="absolute bottom-[-1px] left-0 w-full h-[2.5px] bg-[#58a6ff]" />}
@@ -130,89 +147,54 @@ export default function DomainReportMock({ domain }: DomainReportMockProps) {
       </div>
 
       {/* 🚀 Main Content */}
-      <div className="w-full">
+      {activeTab === "DETAILS" && <DetailsTab domain={domain} />}
+      {activeTab === "RELATIONS" && <RelationsTab domain={domain} />}
+      {activeTab === "COMMUNITY" && <CommunityTab domain={domain} />}
+
+      <div className={activeTab === "DETECTION" ? "w-full" : "hidden"}>
         {/* Community banner */}
-        <div className="bg-[#182335] flex items-center px-5 py-3 border-l-[3px] border-[#00bcd4] mb-8 rounded-[2px]">
-          <p className="text-[13.5px] text-[#e2e8f0]">
-            <span className="font-bold cursor-pointer underline decoration-1 underline-offset-2 text-[#f8fafc] hover:text-white">Join our Community</span>
+        <div className="bg-[var(--banner)] flex items-center px-5 py-3 border-l-[3px] border-[#00bcd4] mb-8 rounded-[2px]">
+          <p className="text-[13.5px] text-[var(--tx)]">
+            <span className="font-bold cursor-pointer underline decoration-1 underline-offset-2 text-[var(--tx-strong)] hover:text-[var(--tx-strong)]">Join our Community</span>
             {" and enjoy additional community insights and crowdsourced detections, plus an API key to "}
-            <span className="font-bold cursor-pointer underline decoration-1 underline-offset-2 text-[#f8fafc] hover:text-white">automate checks.</span>
+            <span className="font-bold cursor-pointer underline decoration-1 underline-offset-2 text-[var(--tx-strong)] hover:text-[var(--tx-strong)]">automate checks.</span>
           </p>
         </div>
 
         {/* Security vendors header */}
-        <div className="flex items-center justify-between pb-3 border-b border-[#2c384f]">
+        <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
           <div className="flex items-center gap-2 pl-2">
-            <span className="text-[#f8fafc] text-[13.5px] font-bold tracking-wide">Security vendors' analysis</span>
+            <span className="text-[var(--tx-strong)] text-[13.5px] font-bold tracking-wide">Security vendors' analysis</span>
             <InfoIcon />
           </div>
-          <span className="text-[#f8fafc] text-[12.5px] font-medium cursor-pointer hover:underline transition-all pr-2">
+          <span className="text-[var(--tx-strong)] text-[12.5px] font-medium cursor-pointer hover:underline transition-all pr-2">
             Do you want to automate checks?
           </span>
         </div>
 
-        {/* Vendor table (4 Column Grid Layout matching screenshot perfectly) */}
+        {/* Vendor table — full-width rows, verdict in a fixed sub-column (VT layout) */}
         <div className="flex flex-col">
-          {/* Clean / Flagged Section */}
-          {Array.from({ length: maxClean }).map((_, i) => {
-            const leftItem = cleanLeft[i];
-            const rightItem = cleanRight[i];
-            
-            return (
-              <div key={`clean-${i}`} className="grid grid-cols-[1.5fr_1fr_1.5fr_1fr] border-b border-[#2c384f]/60 hover:bg-[#242f41]/40 transition-colors py-2.5 px-2 items-center">
-                {/* Left Vendor Name */}
-                <div className="text-[#e2e8f0] text-[13px] font-medium pr-4">
-                  {leftItem}
-                </div>
-                {/* Left Vendor Status */}
-                <div>
-                  <StatusIndicator vendorName={leftItem} defaultStatus="Clean" />
-                </div>
+          {/* Flagged vendors pinned to top as header row */}
+          <VendorRow left="SOCRadar" right="Gridinsoft" status="Clean" muted={false} header />
 
-                {/* Right Vendor Name */}
-                <div className="text-[#e2e8f0] text-[13px] font-medium pr-4 pl-2">
-                  {rightItem}
-                </div>
-                {/* Right Vendor Status */}
-                <div>
-                  <StatusIndicator vendorName={rightItem} defaultStatus="Clean" />
-                </div>
-              </div>
-            );
-          })}
+          {/* Clean Section */}
+          {Array.from({ length: maxClean }).map((_, i) =>
+            cleanLeft[i] || cleanRight[i] ? (
+              <VendorRow key={`clean-${i}`} left={cleanLeft[i] ?? ""} right={cleanRight[i] ?? ""} status="Clean" muted={false} />
+            ) : null
+          )}
 
           {/* Unrated Section */}
-          {Array.from({ length: maxUnrated }).map((_, i) => {
-            const leftItem = unratedLeft[i];
-            const rightItem = unratedRight[i];
-            
-            return (
-              <div key={`unrated-${i}`} className="grid grid-cols-[1.5fr_1fr_1.5fr_1fr] border-b border-[#2c384f]/60 hover:bg-[#242f41]/40 transition-colors py-2.5 px-2 items-center">
-                {/* Left Vendor Name */}
-                <div className="text-[#8ba0b2] text-[13px] font-medium pr-4">
-                  {leftItem}
-                </div>
-                {/* Left Vendor Status */}
-                <div>
-                  <StatusIndicator vendorName={leftItem} defaultStatus="Unrated" />
-                </div>
-
-                {/* Right Vendor Name */}
-                <div className="text-[#8ba0b2] text-[13px] font-medium pr-4 pl-2">
-                  {rightItem}
-                </div>
-                {/* Right Vendor Status */}
-                <div>
-                  <StatusIndicator vendorName={rightItem} defaultStatus="Unrated" />
-                </div>
-              </div>
-            );
-          })}
+          {Array.from({ length: maxUnrated }).map((_, i) =>
+            unratedLeft[i] || unratedRight[i] ? (
+              <VendorRow key={`unrated-${i}`} left={unratedLeft[i] ?? ""} right={unratedRight[i] ?? ""} status="Unrated" muted />
+            ) : null
+          )}
         </div>
       </div>
             
-<footer className="w-full mt-16 pt-10 pb-8 border-t border-[#313e52] ">
-  <div className="max-w-7xl mx-auto  flex justify-end">
+<footer className="w-full mt-16 pt-10 pb-8 border-t border-[var(--border-2)] ">
+  <div className="max-w-[1080px] mx-auto px-4">
     {/* Grid Container-টিকে ডানপাশে পুশ করার জন্য flex justify-end ব্যবহার করা হয়েছে */}
     <div className="grid grid-cols-2 md:grid-cols-5 gap-8 w-full ">
       {[
@@ -239,7 +221,7 @@ export default function DomainReportMock({ domain }: DomainReportMockProps) {
       ].map(({ title, links }) => (
         <div key={title} className="flex flex-col">
           {/* হেডার টেক্সট কালার সম্পূর্ণ সাদা করা হয়েছে */}
-          <h4 className="text-white text-[14px] font-bold ">{title}</h4>
+          <h4 className="text-[var(--tx-strong)] text-[14px] font-bold ">{title}</h4>
           <div className="flex flex-col gap-3">
             {links.map((l) => {
               // নির্দিষ্ট ৩টি লিংক ব্লু কালার করার কন্ডিশন
@@ -249,7 +231,7 @@ export default function DomainReportMock({ domain }: DomainReportMockProps) {
                 <span 
                   key={l} 
                   className={`text-[13px] font-medium hover:underline cursor-pointer transition-colors w-fit ${
-                    isBlue ? 'text-[#3b82f6]' : 'text-[#94a3b8]'
+                    isBlue ? 'text-[#3b82f6]' : 'text-[var(--tx-muted)]'
                   }`}
                 >
                   {l}

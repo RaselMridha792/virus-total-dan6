@@ -7,7 +7,12 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        // Match the body font so Tailwind's `font-sans` is identical site-wide (VT uses Roboto)
+        sans: ["Roboto", "Arial", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };
